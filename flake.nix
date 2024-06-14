@@ -21,6 +21,8 @@
 
   outputs = { nixpkgs, disko, agenix, ... } @inputs: rec {
     
+    nixosModules.disko = disko;
+
     nixosConfigurations = {
       was2-bootstrap = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -28,8 +30,8 @@
         modules = [
           ./bootstrap.nix
           ({lib, ...}: {
-            networking.hostName = |set_host_name|;
-            was2.installDevice = lib.mkForce |set_install_target|;
+            networking.hostName = "set_host_name";
+            was2.installDevice = lib.mkForce "|set_install_target|";
             was2.diskLayouts.lvm_on_luks.enable = true;
           })
         ];
